@@ -64,4 +64,7 @@ def load_data(args):
     dippr = process_dippr(dippr, nist, args)
     nist_knovel_all = pd.concat((nist, dippr))
 
+    #print(nist_knovel_all.head())
+    #print(len(nist_knovel_all))
+
     return nist_knovel_all

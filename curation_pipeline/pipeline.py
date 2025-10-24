@@ -9,7 +9,7 @@ from .T_logV_correlation import drop_flagged_data
 from .remove_inconsistent import remove_inconsistent
 from .pchip_interpolation import pchip_interpolation
 from .write_data import write_data
-
+from .get_salt_aqueous_data import get_salt_aqueous_data
 
 warnings.filterwarnings("ignore")
 
@@ -25,13 +25,18 @@ def prepare_dataset(input_args):
     nist_knovel_all = load_data(input_args)
     print("Time Elapsed: {:.2f}".format(time.time() - start))
 
+    print("Grabbing only salt and aqueous data: ---")
+    nist_knovel_all = get_salt_aqueous_data(nist_knovel_all,input_args)
+    print("Time Elapsed: {:.2f}".format(time.time() - start))
+
     print("Splitting Data: ---")
     test_mols = split_nist_dippr(nist_knovel_all, input_args)
     print("Total Time Elapsed: {:.2f}".format(time.time() - start))
 
-    print("Removing Salts: ---")
-    nist_knovel_all = remove_salts(nist_knovel_all, test_mols)
-    print("Total Time Elapsed: {:.2f}".format(time.time() - start))
+    exit(0)
+    #print("Removing Salts: ---")
+    #nist_knovel_all = remove_salts(nist_knovel_all, test_mols)
+    #print("Total Time Elapsed: {:.2f}".format(time.time() - start))
 
     print("Removing Non-Liquid Compounds: ---")
     nist_knovel_all = remove_not_liquid(nist_knovel_all,test_mols,input_args)
