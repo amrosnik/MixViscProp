@@ -11,10 +11,12 @@ def report_stats(nist_knovel_all, test_mols):
     """
 
     # Average over all data that looks like duplicates before checkpointing
-    nist_knovel_all_nodup = nist_knovel_all.groupby(
-        ["MOL_1", "MOL_2", "MolFrac_1"]
-    ).mean()
-    nist_knovel_all_nodup.reset_index(inplace=True)
+    
+    nist_knovel_all_mean_mf1 = nist_knovel_all.groupby(["MOL_1", "MOL_2"],as_index=False)["MolFrac_1"].mean().rename(columns={"MolFrac_1":"MolFrac_1"})
+
+    nist_knovel_all_nodup = nist_knovel_all.drop(columns="MolFrac_1").merge(nist_knovel_all_mean_mf1,on=["MOL_1","MOL_2"],how="left")
+    
+    nist_knovel_all_nodup = nist_knovel_all_nodup.drop_duplicates(subset=["MOL_1","MOL_2"]).reset_index(drop=True)
 
     nist_knovel_all_nodup["test_1"] = nist_knovel_all_nodup["MOL_1"].apply(
         lambda smi: smi in test_mols

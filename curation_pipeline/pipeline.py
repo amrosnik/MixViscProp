@@ -33,7 +33,6 @@ def prepare_dataset(input_args):
     test_mols = split_nist_dippr(nist_knovel_all, input_args)
     print("Total Time Elapsed: {:.2f}".format(time.time() - start))
 
-    exit(0)
     #print("Removing Salts: ---")
     #nist_knovel_all = remove_salts(nist_knovel_all, test_mols)
     #print("Total Time Elapsed: {:.2f}".format(time.time() - start))
@@ -46,6 +45,7 @@ def prepare_dataset(input_args):
     nist_knovel_all = drop_flagged_data(nist_knovel_all, test_mols)
     print("Total Time Elapsed: {:.2f}".format(time.time() - start))
 
+    exit(0)
     print("Removing Inconsistent Data: ---")
     nist_knovel_all = remove_inconsistent(nist_knovel_all, test_mols, input_args)
     print("Total Time Elapsed: {:.2f}".format(time.time() - start))
