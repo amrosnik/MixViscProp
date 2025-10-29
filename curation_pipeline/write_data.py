@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-
+from pathlib import Path 
 
 def write_data(nist_knovel_all, test_mols, input_args):
 
@@ -27,15 +27,25 @@ def write_data(nist_knovel_all, test_mols, input_args):
         ~(nist_knovel_all_nodup["test_1"] | nist_knovel_all_nodup["test_2"])
     ].dropna()
 
+    # check if out_path exists before writing files 
+    outpath = Path(input_args["out_path"]) 
+    if not outpath.exists():
+        outpath.mkdir()
+
+    data_path = outpath / "data.csv"
+    data_features_path = outpath / "data_features.csv"
+    test_path = outpath / "test.csv"
+    test_features_path = outpath / "test_features.csv"
+
     train_data[["MOL_1", "MOL_2", "logV"]].to_csv(
-        os.path.join(input_args["out_path"], "data.csv"), index=False
+        data_path, index=False
     )
     train_data[["MolFrac_1", "T"]].to_csv(
-        os.path.join(input_args["out_path"], "data_features.csv"), index=False
+        data_features_path, index=False
     )
     test_data[["MOL_1", "MOL_2", "logV"]].to_csv(
-        os.path.join(input_args["out_path"], "test.csv"), index=False
+        test_path, index=False
     )
     test_data[["MolFrac_1", "T"]].to_csv(
-        os.path.join(input_args["out_path"], "test_features.csv"), index=False
+        test_features_path, index=False
     )

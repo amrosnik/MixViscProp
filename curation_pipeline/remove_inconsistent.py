@@ -91,13 +91,13 @@ def remove_inconsistent(nist_knovel_all, test_mols, args):
     nist_near_pure_medians = pd.DataFrame()
 
     nist_near_pure_medians["TargetMol"] = [
-        x[0] for x in nist_near_pure.groupby(["TargetMol", "T"]).median()["logV"].index
+        x[0] for x in nist_near_pure.groupby(["TargetMol", "T"])["logV"].median().index
     ]
     nist_near_pure_medians["T"] = [
-        x[1] for x in nist_near_pure.groupby(["TargetMol", "T"]).median()["logV"].index
+        x[1] for x in nist_near_pure.groupby(["TargetMol", "T"])["logV"].median().index
     ]
     nist_near_pure_medians["logV_median"] = (
-        nist_near_pure.groupby(["TargetMol", "T"]).median()["logV"].values
+        nist_near_pure.groupby(["TargetMol", "T"])["logV"].median().values
     )
 
     suspicious_index_list = []

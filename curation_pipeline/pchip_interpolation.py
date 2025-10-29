@@ -44,11 +44,11 @@ def pchip_interpolation(nist_knovel_all, test_mols):
                 & (subset["MOL_2"] == smi2)
                 & (subset["Ref_ID"] == ref_id)
             ].sort_values("MolFrac_1")
-            sub_subset.groupby("MolFrac_1").mean()["logV"]
+            sub_subset.groupby("MolFrac_1")["logV"].mean()
 
             # We will deal with them by averaging:
             fractions = sub_subset["MolFrac_1"].drop_duplicates()
-            values = sub_subset.groupby("MolFrac_1").mean()["logV"]
+            values = sub_subset.groupby("MolFrac_1")["logV"].mean()
             if len(fractions) > 1:
 
                 pchip = PchipInterpolator(fractions, values)
